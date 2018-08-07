@@ -30,3 +30,32 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:2701
 });
 
 // PRODUCTS API ROUTES BELOW
+const handleError = (res, reason, message, code) => {
+  console.log('Error: ', reason);
+  res.status(code || 500).json({'error': message});
+
+  // '/api/products'
+  //   GET: finds all products
+  //   POST: creates a new product
+
+  app.get('/api/products', (req, res) => {
+  });
+
+  app.post('/api/products', (req, res) => {
+  });
+
+  // '/api/products/:id'
+  // GET: find product by id
+  // PUT: update product by id
+  // DELETE: delete product by id
+
+  app.get('/api/products/:id', (req, res) => {
+  });
+
+  app.put('/api/products/:id', (req, res) => {
+  });
+
+  app.delete('/api/products/:id', (req, res) => {
+  });
+
+}
