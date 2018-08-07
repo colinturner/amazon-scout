@@ -39,9 +39,30 @@ const handleError = (res, reason, message, code) => {
   //   POST: creates a new product
 
   app.get('/api/products', (req, res) => {
+    db.collection(PRODUCTS_COLLECTION).find({}).toArray((err, docs) => {
+      if (err) {
+        handleError(res, err.message, 'Failed to get products.');
+      } else {
+        res.status(200).json(docs);
+      }
+    });
   });
 
   app.post('/api/products', (req, res) => {
+    const newProduct = req.body;
+    newProduct.createDate = new Date();
+
+    if (!req.body.name) {
+      handleError(res, 'Invalid user input', 'Must provide a name', 400);
+    } else {
+      db.collection(PRODUCTS_COLLECTION).insertOne(newProduct, (err, doc) => {
+        if (err) {
+          handleError(res, err.message, 'Failed to store new product');
+        } else {
+          res.status(201).json(doc.ops[0]);
+        }
+      });
+    }
   });
 
   // '/api/products/:id'
