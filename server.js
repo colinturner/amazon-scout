@@ -9,7 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // Create a database variable outside of database connection callback to reuse the connection pool in app.
-const db;
+let db;
 
 // Connect to database before starting the application server.
 mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test', (err, client) => {
