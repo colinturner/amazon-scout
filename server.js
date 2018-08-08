@@ -33,6 +33,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:2701
 const handleError = (res, reason, message, code) => {
   console.log('Error: ', reason);
   res.status(code || 500).json({'error': message});
+}
 
   // '/api/products'
   //   GET: finds all products
@@ -71,12 +72,35 @@ const handleError = (res, reason, message, code) => {
   // DELETE: delete product by id
 
   app.get('/api/products/:id', (req, res) => {
+    db.collection(PRODUCTS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, (err, doc) => {
+      if (err) {
+        handleError(res, err.message, 'Failed to get product');
+      } else {
+        res.status(200).json(doc);
+      }
+    })
   });
 
   app.put('/api/products/:id', (req, res) => {
+    let updateDoc = req.body;
+    delete updateDoc._id;
+
+    db.collection(PRODUCTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, (err, doc) => {
+      if (err) {
+        handleError(res, err.message, 'Failed to update product');
+      } else {
+        updateDoc._id = req.params.id;
+        res.status(200).json(updateDoc);
+      }
+    })
   });
 
   app.delete('/api/products/:id', (req, res) => {
+    db.collection(PRODUCTS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, (err, result) => {
+      if (err) {
+        handleError(res, err.message, 'Failed to delete product');
+      } else {
+        res.status(200).json(req.params.id);
+      }
+    })
   });
-
-}
