@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 import { ProductDetailsComponent } from '../product-details/product-details.component';
+// import { scrape } from '../../utils/scrape';
 
 @Component({
   selector: 'product-list',
@@ -64,5 +65,11 @@ export class ProductListComponent implements OnInit {
    }
    return this.products;
  }
+
+//  private fetchProduct = (asin: string) => {
+//    const data = scrape(asin);
+//    console.log(data);
+//    return data;
+//  }
 
 }

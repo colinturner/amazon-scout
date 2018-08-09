@@ -22,4 +22,8 @@ describe('ProductListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should be true', () => {
+    expect(true).toBe(true);
+  });
 });
