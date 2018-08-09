@@ -17,7 +17,7 @@ export class ProductService {
   }
 
   // post('/api/products')
-  storeProduct(newProduct: Product): Promise<void | Product> {
+  createProduct(newProduct: Product): Promise<void | Product> {
     return this.http.post(this.productsUrl, newProduct)
       .toPromise()
       .then(response => response.json() as Product)
