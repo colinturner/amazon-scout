@@ -9,7 +9,7 @@ import { FunctionCall, Interpolation } from '@angular/compiler';
   styleUrls: ['./product-details.component.css']
 })
 
-export class ContactDetailsComponent {
+export class ProductDetailsComponent {
   @Input()
   product: Product;
 

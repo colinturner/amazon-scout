@@ -8,6 +8,10 @@ const PRODUCTS_COLLECTION = 'products';
 const app = express();
 app.use(bodyParser.json());
 
+// Create link to Angular build directory
+const distDir = __dirname + "/dist/";
+app.use(express.static(distDir));
+
 // Create a database variable outside of database connection callback to reuse the connection pool in app.
 let db;
 
