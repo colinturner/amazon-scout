@@ -1,3 +1,22 @@
-<p>
-  product-list works!
-</p>
+<div class="row">
+  <div class="col-md-5">
+    <h2>Products</h2>
+    <ul class="list-group">
+      <li class="list-group-item"
+        *ngFor="let product of products"
+        (click)="selectProduct(product)"
+        [class.active]="product === selectedProduct">
+        {{product.name}}
+      </li>
+    </ul>
+    <button class="btn btn-warning" (click)="createNewProduct()">New</button>
+  </div>
+  <div class="col-md-5 col-md-offset-2">
+    <product-details
+      [product]="selectedProduct"
+      [createHandler]="addProduct"
+      [updateHandler]="updateProduct"
+      [deleteHandler]="deleteProduct">
+    </product-details>
+  </div>
+</div>
