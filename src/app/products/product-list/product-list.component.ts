@@ -33,7 +33,7 @@ export class ProductListComponent implements OnInit {
    const product: Product = {
      name: '',
      dimensions: '',
-     rank: {},
+     rank: '',
    }
 
    // default to a blank product when creating a new one
