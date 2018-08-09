@@ -7,6 +7,13 @@
 <div *ngIf="product" class="row">
   <form class="col-md-12">
     <div class="form-group">
+      <label for="product-asin">ASIN</label>
+      <div class="flex">
+        <input class="form-control" name="product-asin" [(ngModel)]="product.asin" placeholder="ASIN"/>
+        <button class="btn btn-info" (click)="fetchProduct(product)">Fetch info from Amazon</button>
+      </div>
+    </div>
+    <div class="form-group">
       <label for="product-name">Name</label>
       <input class="form-control" name="product-name" [(ngModel)]="product.name" placeholder="Name"/>
     </div>
@@ -18,8 +25,8 @@
       <label for="product-phone-rank">Rank</label>
       <input class="form-control" name="product-phone-rank" [(ngModel)]="product.rank" placeholder="{Baby: 4}"/>
     </div>
-    <button class="btn btn-primary" *ngIf="!product._id" (click)="createProduct(product)">Create</button>
-    <button class="btn btn-info" *ngIf="product._id" (click)="updateProduct(product)">Update</button>
-    <button class="btn btn-danger" *ngIf="product._id" (click)="deleteProduct(product._id)">Delete</button>
+    <button class="btn btn-primary" *ngIf="!product._id" (click)="createProduct(product)">Store Product</button>
+    <button class="btn btn-info" *ngIf="product._id" (click)="updateProduct(product)">Update Product</button>
+    <button class="btn btn-danger" *ngIf="product._id" (click)="deleteProduct(product._id)">Delete Product</button>
   </form>
 </div>

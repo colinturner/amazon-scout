@@ -31,6 +31,7 @@ export class ProductListComponent implements OnInit {
 
  private createNewProduct = () => {
    const product: Product = {
+     asin: '',
      name: '',
      dimensions: '',
      rank: '',
