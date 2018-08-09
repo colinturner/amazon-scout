@@ -2,6 +2,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('mongodb');
 const ObjectID = mongodb.ObjectID;
+const puppeteer = require('puppeteer');
+let browser;
+const USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36';
+const config = require('./config/local');
 
 const PRODUCTS_COLLECTION = 'products';
 
@@ -16,11 +20,16 @@ app.use(express.static(distDir));
 let db;
 
 // Connect to database before starting the application server.
-mongodb.MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/test', (err, client) => {
+mongodb.MongoClient.connect(process.env.MONGODB_URI || config.localDb || 'mongodb://localhost:27017/test', (err, client) => {
   if (err) {
     console.log(err);
     process.exit(1);
   }
+
+  puppeteer.launch()
+    .then((instance) => {
+      browser = instance;
+    });
 
   // Save database object from the callback for reuse.
   db = client.db();
@@ -42,6 +51,18 @@ const handleError = (res, reason, message, code) => {
   // '/api/products'
   //   GET: finds all products
   //   POST: creates a new product
+
+
+  app.get('/api/scrape', async (req, res) => {
+    const page = await browser.newPage();
+    await page.setUserAgent(USER_AGENT);
+    await page.goto('https://www.amazon.com');
+
+    const response = await page.title();
+
+    res.status(200).json(response);
+    page.close();
+  });
 
   app.get('/api/products', (req, res) => {
     db.collection(PRODUCTS_COLLECTION).find({}).toArray((err, docs) => {
