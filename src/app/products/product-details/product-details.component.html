@@ -9,8 +9,8 @@
     <div class="form-group">
       <label for="product-asin">ASIN</label>
       <div class="flex">
-        <input class="form-control" name="product-asin" [(ngModel)]="product.asin" placeholder="ASIN"/>
-        <button class="btn btn-info" (click)="fetchProduct('B073QPMFVJ')">Fetch info from Amazon</button>
+        <input id="asin" class="form-control" name="product-asin" [(ngModel)]="product.asin" placeholder="ASIN"/>
+        <button class="btn btn-info" (click)="fetchProduct(product.asin)">Fetch info from Amazon</button>
       </div>
     </div>
     <div class="form-group">

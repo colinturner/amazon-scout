@@ -31,9 +31,9 @@ export class ProductDetailsComponent {
     this.productService
       .fetchProduct(asin)
       .then((fetchedProduct: Product) => {
-        document.getElementById('name').innerHTML = fetchedProduct.name;
-        document.getElementById('dimensions').innerHTML = fetchedProduct.dimensions;
-        document.getElementById('rank').innerHTML = fetchedProduct.rank;
+        this.product.name = fetchedProduct.name;
+        this.product.dimensions = fetchedProduct.dimensions;
+        this.product.rank = fetchedProduct.rank;
       })
   }
 
