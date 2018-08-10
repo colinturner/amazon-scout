@@ -33,7 +33,7 @@ export class ProductDetailsComponent {
       .then((fetchedProduct: Product) => {
         this.product.name = fetchedProduct.name;
         this.product.dimensions = fetchedProduct.dimensions;
-        this.product.rank = fetchedProduct.rank;
+        this.product.rank = JSON.stringify(fetchedProduct.rank);
       })
   }
 
