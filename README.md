@@ -1,27 +1,22 @@
 # AmazonScout
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.2.
+This is a full-stack web application for retrieving and storing product information based on an ASIN (Amazon Standard Identification Number). It's built with MongoDB (hosted on mlab), Express, Angular and Node.js.
 
-## Development server
+## Production Environment
+This project is live at https://amazon-scout.herokuapp.com/
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Development Environment
 
-## Code scaffolding
+Run `ng serve` for a dev server to preview the frontend - navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm start` to spin up a local API server and test the backend with [Postman](https://www.getpostman.com/). The server will be available on `http://localhost:8080/`.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Design
 
-## Build
+This app was built without the use of Amazon's Product API. To work around it, the app spawns a chrome headless browser (see: [puppeteer](https://github.com/GoogleChrome/puppeteer)) inside Node.js to visit Amazon's website and scrape the DOM for information related to the product's name, dimensions, categories and ranks.
+*Routes - see server.js
+*Web scraper - see src/app/utils/scrape.js
+*Angular components - see src/app/products folder
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Limitations
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Because Amazon does not use a standard, universal product page - that is, different Amazon product pages have different DOM structures - it's challenging to write a web scraper that will succeed for every Amazon product. Sometimes, for example, the product dimensions are located inside an HTML table, sometimes not - sometimes they don't exist on the page at all! That being said, this web scraper has been tested extensively for Amazon products in the [Baby Best Sellers category](https://www.amazon.com/gp/bestsellers/baby-products/ref=sv_Baby_1) and works fine for products in that section - among others :)
