@@ -10,6 +10,7 @@ const {
   DIMENSIONS_ELEMENT,
   DIMENSIONS_SELECTOR,
   CATEGORY_AND_RANK_ELEMENT,
+  CATEGORY_AND_RANK_SELECTOR,
   RANK,
   USER_AGENT,
   ASIN,
@@ -26,6 +27,7 @@ const scrape = async (asin = ASIN, browser) => {
     await openAmazonProductPage(asin, page);
     await page.waitForSelector(DIMENSIONS_SELECTOR);
     await page.waitForSelector(NAME_SELECTOR);
+    await page.waitForSelector(CATEGORY_AND_RANK_SELECTOR);
 
     // Scrape relevant data as strings
     const nameString = await scrapeString(NAME_ELEMENT, page);
