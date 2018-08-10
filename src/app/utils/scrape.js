@@ -52,7 +52,3 @@ const scrape = async (asin = ASIN, browser) => {
 };
 
 module.exports = { scrape };
-
-// scrape();
-// scrape('B073QPMFVJ');
-// scrape('B06ZYBTLW8');

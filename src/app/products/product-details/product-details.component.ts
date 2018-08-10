@@ -22,7 +22,20 @@ export class ProductDetailsComponent {
   @Input()
   deleteHandler: Function;
 
+  @Input()
+  fetchHandler: Function;
+
   constructor (private productService: ProductService) {}
+
+  fetchProduct(asin: string) {
+    this.productService
+      .fetchProduct(asin)
+      .then((fetchedProduct: Product) => {
+        document.getElementById('name').innerHTML = fetchedProduct.name;
+        document.getElementById('dimensions').innerHTML = fetchedProduct.dimensions;
+        document.getElementById('rank').innerHTML = fetchedProduct.rank;
+      })
+  }
 
   createProduct(product: Product) {
     this.productService

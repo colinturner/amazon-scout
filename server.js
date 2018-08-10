@@ -53,8 +53,8 @@ const handleError = (res, reason, message, code) => {
 // api/scrape
 //  GET: retrieve product info from Amazon
 
-app.get('/api/scrape', async (req, res) => {
-  const response = await scrape('B002QYW8LW', browser);
+app.post('/api/scrape', async (req, res) => {
+  const response = await scrape(req, browser);
   res.status(200).json(response);
   page.close();
 });

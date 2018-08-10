@@ -14,6 +14,7 @@
   <div class="col-md-5 col-md-offset-2">
     <product-details
       [product]="selectedProduct"
+      [fetchHandler]="fetchProduct"
       [createHandler]="addProduct"
       [updateHandler]="updateProduct"
       [deleteHandler]="deleteProduct">
