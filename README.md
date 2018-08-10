@@ -1,6 +1,6 @@
 # AmazonScout
 
-This is a full-stack web application for retrieving and storing product information based on an ASIN (Amazon Standard Identification Number). It's built with MongoDB (hosted on mlab), Express, Angular and Node.js.
+This is a full-stack web application for retrieving and storing product information based on an ASIN (Amazon Standard Identification Number). It's built with MongoDB (hosted on mLab), Express, Angular and Node.js.
 
 ## Production Environment
 This project is live at https://amazon-scout.herokuapp.com/
