@@ -4,10 +4,12 @@ const mongodb = require('mongodb');
 const ObjectID = mongodb.ObjectID;
 const puppeteer = require('puppeteer');
 let browser;
-const USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36';
+// const USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36';
+const { USER_AGENT, NAME_ELEMENT, NAME_SELECTOR, DIMENSIONS_SELECTOR } = require('./src/app/utils/constants');
 const config = require('./config/local');
-
+const { openAmazonProductPage, scrapeString, extractCategoryAndRank } = require('./src/app/utils/helpers');
 const PRODUCTS_COLLECTION = 'products';
+const { scrape } = require('./src/app/utils/scrape');
 
 const app = express();
 app.use(bodyParser.json());
@@ -48,84 +50,81 @@ const handleError = (res, reason, message, code) => {
   res.status(code || 500).json({'error': message});
 }
 
-  // '/api/products'
-  //   GET: finds all products
-  //   POST: creates a new product
+// api/scrape
+//  GET: retrieve product info from Amazon
 
+app.get('/api/scrape', async (req, res) => {
+  const response = await scrape('B002QYW8LW', browser);
+  res.status(200).json(response);
+  page.close();
+});
 
-  app.get('/api/scrape', async (req, res) => {
-    const page = await browser.newPage();
-    await page.setUserAgent(USER_AGENT);
-    await page.goto('https://www.amazon.com');
+// '/api/products'
+//   GET: finds all products
+//   POST: creates a new product
 
-    const response = await page.title();
-
-    res.status(200).json(response);
-    page.close();
-  });
-
-  app.get('/api/products', (req, res) => {
-    db.collection(PRODUCTS_COLLECTION).find({}).toArray((err, docs) => {
-      if (err) {
-        handleError(res, err.message, 'Failed to get products.');
-      } else {
-        res.status(200).json(docs);
-      }
-    });
-  });
-
-  app.post('/api/products', (req, res) => {
-    const newProduct = req.body;
-    newProduct.createDate = new Date();
-
-    if (!req.body.name) {
-      handleError(res, 'Invalid user input', 'Must provide a name', 400);
+app.get('/api/products', (req, res) => {
+  db.collection(PRODUCTS_COLLECTION).find({}).toArray((err, docs) => {
+    if (err) {
+      handleError(res, err.message, 'Failed to get products.');
     } else {
-      db.collection(PRODUCTS_COLLECTION).insertOne(newProduct, (err, doc) => {
-        if (err) {
-          handleError(res, err.message, 'Failed to store new product');
-        } else {
-          res.status(201).json(doc.ops[0]);
-        }
-      });
+      res.status(200).json(docs);
     }
   });
+});
 
-  // '/api/products/:id'
-  // GET: find product by id
-  // PUT: update product by id
-  // DELETE: delete product by id
+app.post('/api/products', (req, res) => {
+  const newProduct = req.body;
+  newProduct.createDate = new Date();
 
-  app.get('/api/products/:id', (req, res) => {
-    db.collection(PRODUCTS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, (err, doc) => {
+  if (!req.body.name) {
+    handleError(res, 'Invalid user input', 'Must provide a name', 400);
+  } else {
+    db.collection(PRODUCTS_COLLECTION).insertOne(newProduct, (err, doc) => {
       if (err) {
-        handleError(res, err.message, 'Failed to get product');
+        handleError(res, err.message, 'Failed to store new product');
       } else {
-        res.status(200).json(doc);
+        res.status(201).json(doc.ops[0]);
       }
-    })
-  });
+    });
+  }
+});
 
-  app.put('/api/products/:id', (req, res) => {
-    let updateDoc = req.body;
-    delete updateDoc._id;
+// '/api/products/:id'
+// GET: find product by id
+// PUT: update product by id
+// DELETE: delete product by id
 
-    db.collection(PRODUCTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, (err, doc) => {
-      if (err) {
-        handleError(res, err.message, 'Failed to update product');
-      } else {
-        updateDoc._id = req.params.id;
-        res.status(200).json(updateDoc);
-      }
-    })
-  });
+app.get('/api/products/:id', (req, res) => {
+  db.collection(PRODUCTS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, (err, doc) => {
+    if (err) {
+      handleError(res, err.message, 'Failed to get product');
+    } else {
+      res.status(200).json(doc);
+    }
+  })
+});
 
-  app.delete('/api/products/:id', (req, res) => {
-    db.collection(PRODUCTS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, (err, result) => {
-      if (err) {
-        handleError(res, err.message, 'Failed to delete product');
-      } else {
-        res.status(200).json(req.params.id);
-      }
-    })
-  });
+app.put('/api/products/:id', (req, res) => {
+  let updateDoc = req.body;
+  delete updateDoc._id;
+
+  db.collection(PRODUCTS_COLLECTION).updateOne({_id: new ObjectID(req.params.id)}, updateDoc, (err, doc) => {
+    if (err) {
+      handleError(res, err.message, 'Failed to update product');
+    } else {
+      updateDoc._id = req.params.id;
+      res.status(200).json(updateDoc);
+    }
+  })
+});
+
+app.delete('/api/products/:id', (req, res) => {
+  db.collection(PRODUCTS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, (err, result) => {
+    if (err) {
+      handleError(res, err.message, 'Failed to delete product');
+    } else {
+      res.status(200).json(req.params.id);
+    }
+  })
+});
