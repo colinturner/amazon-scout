@@ -50,11 +50,11 @@ const handleError = (res, reason, message, code) => {
   res.status(code || 500).json({'error': message});
 }
 
-// api/scrape
+// api/scrape/:asin
 //  GET: retrieve product info from Amazon
 
-app.post('/api/scrape', async (req, res) => {
-  const response = await scrape(req, browser);
+app.get('/api/scrape/:asin', async (req, res) => {
+  const response = await scrape(req.params.asin, browser);
   res.status(200).json(response);
   page.close();
 });

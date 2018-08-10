@@ -5,13 +5,13 @@ import { Http, Response } from '@angular/http';
 @Injectable()
 export class ProductService {
   private productsUrl = '/api/products';
-  private scrapeUrl = '/api/scrape';
+  private scrapeUrl = '/api/scrape/';
 
   constructor (private http: Http) {}
 
-  // post('/api/scrape')
+  // get('/api/scrape')
   fetchProduct(asin: string): Promise<void | Product> {
-    return this.http.post(this.scrapeUrl, asin)
+    return this.http.get(this.scrapeUrl + asin)
       .toPromise()
       .then(response => response.json() as Product)
       .catch(this.handleError);
