@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
-import { FunctionCall, Interpolation } from '@angular/compiler';
 
 @Component({
   selector: 'product-details',
