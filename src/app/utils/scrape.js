@@ -42,7 +42,7 @@ const scrape = async (asin = ASIN, browser) => {
 
     // Print and return JSON
     console.log(product);
-    // browser.close();
+    page.close();
     return product;
 
     // Handle errors

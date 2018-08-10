@@ -56,7 +56,6 @@ const handleError = (res, reason, message, code) => {
 app.get('/api/scrape/:asin', async (req, res) => {
   const response = await scrape(req.params.asin, browser);
   res.status(200).json(response);
-  page.close();
 });
 
 // '/api/products'
