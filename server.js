@@ -28,7 +28,7 @@ mongodb.MongoClient.connect(process.env.MONGODB_URI || config.localDb || 'mongod
     process.exit(1);
   }
 
-  puppeteer.launch()
+  puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     .then((instance) => {
       browser = instance;
     });
