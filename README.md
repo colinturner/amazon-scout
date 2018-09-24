@@ -12,7 +12,7 @@ Run `npm start` to spin up a local API server and test the backend with [Postman
 
 ## Design
 
-This app was built without the use of Amazon's Product API. To work around it, the app spawns a chrome headless browser (see: [puppeteer](https://github.com/GoogleChrome/puppeteer)) inside Node.js to visit Amazon's website and scrape the DOM for information related to the product's name, dimensions, categories and ranks.
+This app was built without the use of Amazon's Product API. To work around it, the app spawns a chrome headless browser (see: [puppeteer](https://github.com/GoogleChrome/puppeteer)) inside Node.js to visit Amazon's website and scrape the DOM for information related to the product's name, dimensions, categories and rankings.
 - Routes - see /server.js
 - Web scraper - see /src/app/utils/scrape.js
 - Angular components - see /src/app/products folder
