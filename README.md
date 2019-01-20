@@ -16,7 +16,3 @@ This app was built without the use of Amazon's Product API. To work around it, t
 - Routes - see /server.js
 - Web scraper - see /src/app/utils/scrape.js
 - Angular components - see /src/app/products folder
-
-## Limitations
-
-Because Amazon does not use a standard, universal product page - that is, different Amazon product pages have different DOM structures - it's challenging to write a web scraper that will succeed for every Amazon product. Sometimes, for example, the product dimensions are located inside an HTML table, sometimes not - sometimes they don't exist on the page at all! That being said, this web scraper has been tested extensively for Amazon products in the [Baby Best Sellers category](https://www.amazon.com/gp/bestsellers/baby-products/ref=sv_Baby_1) and works fine for products in that section - among others :)
